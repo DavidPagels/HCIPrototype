@@ -23,6 +23,15 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
+
+        Button newEvent = (Button) findViewById(R.id.newEvent);
+        newEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, NewActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
     }
 
 
