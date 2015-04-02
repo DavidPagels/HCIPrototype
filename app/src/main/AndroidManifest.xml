@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SetLocation"
+            android:label="@string/title_activity_set_location" >
+        </activity>
     </application>
 
 </manifest>
