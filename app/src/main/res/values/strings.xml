@@ -6,4 +6,5 @@
     <string name="title_activity_set_location">SetLocation</string>
     <string name="title_activity_new">NewActivity</string>
     <string name="title_activity_speed_prompt">SpeedPrompt</string>
+    <string name="location_hint">Location Name</string>
 </resources>

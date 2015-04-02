@@ -12,7 +12,8 @@
         android:id="@+id/editText"
         android:layout_marginTop="128dp"
         android:inputType="text"
-        android:text="Location Name"
+        android:hint="@string/location_hint"
+        android:text=""
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
