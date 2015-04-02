@@ -1,9 +1,14 @@
 package com.example.david.hciprototype;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.location.LocationManager;
+import android.location.Location;
 
 
 public class SetLocation extends ActionBarActivity {
@@ -12,6 +17,17 @@ public class SetLocation extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
+        Button submitButton = (Button) findViewById(R.id.locButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                System.out.println("Longitude: " + longitude + ", Latitude: " + latitude);
+            }
+        });
     }
 
 
