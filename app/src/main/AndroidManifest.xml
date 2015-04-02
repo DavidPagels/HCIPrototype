@@ -20,6 +20,17 @@
             android:name=".SetLocation"
             android:label="@string/title_activity_set_location" >
         </activity>
+        <activity
+            android:name=".NewActivity"
+            android:label="@string/title_activity_new" >
+        </activity>
+        <activity
+            android:name=".SpeedPrompt"
+            android:label="@string/title_activity_speed_prompt" >
+        </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
