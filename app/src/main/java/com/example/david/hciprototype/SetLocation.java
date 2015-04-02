@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.location.LocationManager;
 import android.location.Location;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class SetLocation extends ActionBarActivity {
@@ -18,6 +20,7 @@ public class SetLocation extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
         Button submitButton = (Button) findViewById(R.id.locButton);
+        final TextView editText = (TextView) findViewById(R.id.editText);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,6 +29,7 @@ public class SetLocation extends ActionBarActivity {
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
                 System.out.println("Longitude: " + longitude + ", Latitude: " + latitude);
+                editText.setText("Longitude: " + longitude + ", Latitude: " + latitude);
             }
         });
     }
