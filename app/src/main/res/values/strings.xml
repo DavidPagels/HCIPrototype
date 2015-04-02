@@ -7,4 +7,7 @@
     <string name="title_activity_new">NewActivity</string>
     <string name="title_activity_speed_prompt">SpeedPrompt</string>
     <string name="location_hint">Location Name</string>
+    <string name="event_title">Event Name</string>
+    <string name="event_label">Event:</string>
+    <string name="loc_label">Location:</string>
 </resources>

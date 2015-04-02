@@ -19,9 +19,42 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/eventTitle"
         android:text=""
-        android:hint="Event Title"/>
+        android:hint="@string/event_title"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/eventLabel"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/eventLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="45dp"
+        android:layout_toLeftOf="@id/eventTitle"
+        android:layout_toStartOf="@id/eventTitle"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locMenu"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignTop="@+id/locLabel"
+        android:layout_alignLeft="@+id/eventTitle"
+        android:layout_alignStart="@+id/eventTitle" />
+    <TextView
+        android:id="@+id/locLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/loc_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/eventLabel"
+        android:layout_marginTop="45dp"
+        android:layout_toLeftOf="@id/eventTitle"
+        android:layout_toStartOf="@id/eventTitle"/>
+
+
 </RelativeLayout>
