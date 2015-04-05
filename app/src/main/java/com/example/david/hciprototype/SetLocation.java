@@ -28,14 +28,17 @@ public class SetLocation extends ActionBarActivity {
             public void onClick(View v) {
 
                 LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location location = new Location(""); // hard coding morris, mn for now
+                location.setLatitude(45.5861);
+                location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if(location != null){
                     editText.setText("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
                     Intent myIntent = new Intent(SetLocation.this, SpeedPrompt.class);
-                    myIntent.putExtra("latitude", location.getLatitude());
+                    myIntent.putExtra("latitude", location.getLatitude()); // Transferring coordinates between activities
                     myIntent.putExtra("longitude", location.getLongitude());
                     startActivity(myIntent);
                 }
+                System.out.println("location was null");
 
             }
         });
