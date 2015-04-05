@@ -6,6 +6,7 @@
     <string name="title_activity_set_location">SetLocation</string>
     <string name="title_activity_new">NewActivity</string>
     <string name="title_activity_speed_prompt">SpeedPrompt</string>
+    <string name="new_event_title">Add a New Event</string>
     <string name="location_hint">Location Name</string>
     <string name="event_title">Event Name</string>
     <string name="event_label">Event:</string>

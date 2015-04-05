@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 
 public class NewActivity extends ActionBarActivity {
 
@@ -16,9 +18,11 @@ public class NewActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new);
 
         Spinner spinner = (Spinner) findViewById(R.id.locMenu);
+        LocationHash locations = new LocationHash();
+        ArrayList<String> allLocations = locations.getAllLocations();
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.locations_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, allLocations);
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
