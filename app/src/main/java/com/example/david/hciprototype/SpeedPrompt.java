@@ -4,15 +4,38 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class SpeedPrompt extends ActionBarActivity {
+    private GoogleMap map;
+    private LatLng currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speed_prompt);
+        final TextView promptText = (TextView) findViewById(R.id.textView2);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            currentLocation = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
+        }
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        if(currentLocation == null)
+            System.out.println("currentLocation is null!");
+        if(promptText == null)
+            System.out.println("promptText is null!");
+        promptText.setText("Latitude: " + currentLocation.latitude + ", Longitude: " + currentLocation.longitude);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
     }
+
+
 
 
     @Override

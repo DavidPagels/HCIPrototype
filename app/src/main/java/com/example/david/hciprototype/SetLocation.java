@@ -1,16 +1,18 @@
 package com.example.david.hciprototype;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.location.LocationManager;
-import android.location.Location;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class SetLocation extends ActionBarActivity {
@@ -24,12 +26,17 @@ public class SetLocation extends ActionBarActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
                 Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
-                System.out.println("Longitude: " + longitude + ", Latitude: " + latitude);
-                editText.setText("Longitude: " + longitude + ", Latitude: " + latitude);
+                if(location != null){
+                    editText.setText("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+                    Intent myIntent = new Intent(SetLocation.this, SpeedPrompt.class);
+                    myIntent.putExtra("latitude", location.getLatitude());
+                    myIntent.putExtra("longitude", location.getLongitude());
+                    startActivity(myIntent);
+                }
+
             }
         });
     }
