@@ -61,5 +61,23 @@
         android:layout_toLeftOf="@id/eventTitle"
         android:layout_toStartOf="@id/eventTitle"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Event"
+        android:id="@+id/createEvent"
+        android:layout_marginTop="77dp"
+        android:layout_below="@+id/addLocation"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Location"
+        android:id="@+id/addLocation"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
