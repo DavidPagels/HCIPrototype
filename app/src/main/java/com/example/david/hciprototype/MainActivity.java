@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.HashMap;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -16,6 +18,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button submitButton = (Button) findViewById(R.id.newLoc);
+        final LocationHash locations = new LocationHash();
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, NewActivity.class);
+                myIntent.putExtra("Locations", locations);
                 MainActivity.this.startActivity(myIntent);
             }
         });

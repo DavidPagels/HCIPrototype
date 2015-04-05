@@ -24,7 +24,10 @@
         android:hint="@string/event_title"
         android:singleLine="true"
         android:layout_alignTop="@+id/eventLabel"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
     <TextView
         android:id="@+id/eventLabel"
         android:layout_width="wrap_content"
@@ -36,14 +39,16 @@
         android:layout_toLeftOf="@id/eventTitle"
         android:layout_toStartOf="@id/eventTitle"/>
 
-    <Spinner
+    <AutoCompleteTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/locMenu"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:hint="Location Name"
         android:layout_alignTop="@+id/locLabel"
         android:layout_alignLeft="@+id/eventTitle"
-        android:layout_alignStart="@+id/eventTitle" />
+        android:layout_alignStart="@+id/eventTitle"
+        android:layout_alignRight="@+id/eventTitle"
+        android:layout_alignEnd="@+id/eventTitle" />
     <TextView
         android:id="@+id/locLabel"
         android:layout_width="wrap_content"

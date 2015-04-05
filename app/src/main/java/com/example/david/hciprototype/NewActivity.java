@@ -4,21 +4,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class NewActivity extends ActionBarActivity {
-
+    public LocationHash locations;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
 
-        Spinner spinner = (Spinner) findViewById(R.id.locMenu);
-        LocationHash locations = new LocationHash();
+        AutoCompleteTextView aCTV = (AutoCompleteTextView) findViewById(R.id.locMenu);
+        locations = (LocationHash) getIntent().getSerializableExtra("Locations");
         ArrayList<String> allLocations = locations.getAllLocations();
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -26,7 +30,18 @@ public class NewActivity extends ActionBarActivity {
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        aCTV.setAdapter(adapter);
+
+        aCTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                String selected = (String) arg0.getAdapter().getItem(arg2);
+                double[] selectedCoors = locations.getCoor(selected);
+                Toast.makeText(NewActivity.this, "Coordinates:" + selectedCoors[0] + "," + selectedCoors[1], Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
     }
 
 
