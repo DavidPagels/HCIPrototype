@@ -25,10 +25,12 @@ import java.util.Calendar;
 public class NewActivity extends ActionBarActivity {
     AutoCompleteTextView aCTV = null;
     EventHash.LocationHash locations;
+    EventHash eventHash = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
+        eventHash = ((EventHash) getApplication());
         final TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
         aCTV = (AutoCompleteTextView) findViewById(R.id.locMenu);
 
@@ -37,24 +39,14 @@ public class NewActivity extends ActionBarActivity {
         createEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // If the event name is taken
-                if (!((EventHash) getApplication()).events.containsKey(eventTitle.getText())) {
+                if (!eventHash.events.containsKey(eventTitle.getText())) {
+
                     // Add the event info
                     String eventName = eventTitle.getText().toString();
                     Calendar timeOfEvent = null;
                     String eventLocation = aCTV.getText().toString();
-                    ((EventHash) getApplication()).addEvent(eventName, timeOfEvent, eventLocation);
+                    eventHash.addEvent(eventName, timeOfEvent, eventLocation);
 
-                    // code to test distance to event function
-                   /* AlertDialog alertDialog = new AlertDialog.Builder(NewActivity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage(((EventHash)getApplication()).distanceToEvent(eventName));
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();*/
                     finish();
                 }
             }
@@ -73,8 +65,8 @@ public class NewActivity extends ActionBarActivity {
         setAutoComplete();
     }
 
+    // Repopulating auto complete when done adding new location
     protected void onActivityResult(int a, int b, Intent intent) {
-        System.out.println("inside activity result");
         setAutoComplete();
     }
 
@@ -87,9 +79,6 @@ public class NewActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -101,9 +90,9 @@ public class NewActivity extends ActionBarActivity {
     }
 
 
+    // Method to populate autocomplete list
     private void setAutoComplete() {
-
-        locations = ((EventHash) getApplication()).locations;
+        locations = eventHash.locations;
         ArrayList<String> allLocations = locations.getAllLocations();
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, allLocations);

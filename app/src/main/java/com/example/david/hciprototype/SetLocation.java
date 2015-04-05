@@ -16,11 +16,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 public class SetLocation extends ActionBarActivity {
-
+    EventHash eventHash = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
+        eventHash = ((EventHash)getApplication());
         Button submitButton = (Button) findViewById(R.id.locButton);
         final TextView editText = (TextView) findViewById(R.id.editText);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -33,10 +34,10 @@ public class SetLocation extends ActionBarActivity {
                 location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 // Only execute if gps location was found and the location hashmap doesn't contain label
-                if(location != null || !((EventHash)getApplication()).locations.getLocationHash().containsKey(editText.getText().toString())){
+                if(location != null || !eventHash.locations.getLocationHash().containsKey(editText.getText().toString())){
 
                     String eventLocation = editText.getText().toString();
-                    ((EventHash)getApplication()).locations.addLocation(eventLocation, location.getLatitude(), location.getLongitude());
+                    eventHash.locations.addLocation(eventLocation, location.getLatitude(), location.getLongitude());
                     finish();
                 } else {
                     System.out.println("location was null");
@@ -56,9 +57,6 @@ public class SetLocation extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

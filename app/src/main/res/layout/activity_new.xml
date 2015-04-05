@@ -44,11 +44,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/locMenu"
         android:hint="Location Name"
+        android:singleLine="true"
         android:layout_alignTop="@+id/locLabel"
         android:layout_alignLeft="@+id/eventTitle"
         android:layout_alignStart="@+id/eventTitle"
         android:layout_alignRight="@+id/eventTitle"
         android:layout_alignEnd="@+id/eventTitle" />
+
     <TextView
         android:id="@+id/locLabel"
         android:layout_width="wrap_content"
@@ -66,7 +68,6 @@
         android:layout_height="wrap_content"
         android:text="Create Event"
         android:id="@+id/createEvent"
-        android:layout_marginTop="77dp"
         android:layout_below="@+id/addLocation"
         android:layout_centerHorizontal="true" />
 
@@ -76,8 +77,9 @@
         android:layout_height="wrap_content"
         android:text="Add Location"
         android:id="@+id/addLocation"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/locMenu"
+        android:layout_alignLeft="@+id/createEvent"
+        android:layout_alignStart="@+id/createEvent" />
 
 
 </RelativeLayout>
