@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -69,16 +70,63 @@ public class NewActivity extends ActionBarActivity {
             }
         });
 
-        TextView setDate = (TextView) findViewById(R.id.theDate);
+        final TextView theDate = (TextView) findViewById(R.id.theDate);
+        theDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.date_picker);
+                    dialog.setTitle("Title...");
+                    final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
+
+                    Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+                    saveTime.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            theDate.setFocusable(false);
+                            theDate.setFocusable(true);
+                            setTime(theDate, tp.getCurrentHour(), tp.getCurrentMinute());
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
 
 
-        TextView theTime = (TextView) findViewById(R.id.theTime);
+        final TextView theTime = (TextView) findViewById(R.id.theTime);
+        theTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.time_picker);
+                    dialog.setTitle("Title...");
+                    final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
+
+                    Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+                    saveTime.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            theTime.setFocusable(false);
+                            theTime.setFocusable(true);
+                            setTime(theTime, tp.getCurrentHour(), tp.getCurrentMinute());
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
 
 
         setAutoComplete();
     }
 
     // Repopulating auto complete when done adding new location
+
     protected void onActivityResult(int a, int b, Intent intent) {
         setAutoComplete();
     }

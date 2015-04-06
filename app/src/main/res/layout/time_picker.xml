@@ -13,4 +13,14 @@
         android:layout_centerHorizontal="true">
     </TimePicker>
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/saveTime"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/timePicker1"
+        android:layout_alignEnd="@+id/timePicker1" />
+
 </RelativeLayout>
