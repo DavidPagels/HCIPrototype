@@ -13,4 +13,14 @@
         android:layout_centerHorizontal="true">
     </DatePicker>
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/saveTime"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/datePicker1"
+        android:layout_alignEnd="@+id/datePicker1" />
+
 </RelativeLayout>

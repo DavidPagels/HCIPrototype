@@ -83,6 +83,8 @@
         style="@style/LargeTextFullWidth"
         android:id="@+id/theDate"
         android:text=""
+        android:setClickable="true"
+        android:onClick="setDateDialog"
         android:singleLine="true"
         android:hint="@string/theDate"
         android:layout_width="wrap_content"

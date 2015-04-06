@@ -1,5 +1,6 @@
 package com.example.david.hciprototype;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -12,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -63,33 +66,36 @@ public class AddNewEvent extends ActionBarActivity {
         });
 
         final TextView theDate = (TextView) findViewById(R.id.theDate);
-        theDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    final Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.date_picker);
-                    dialog.setTitle("Title...");
-                    final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
+        Calendar calendar = Calendar.getInstance();
+        theDate.setText((calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
 
-                    Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
-                    saveTime.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            theDate.setFocusable(false);
-                            theDate.setFocusable(true);
-                            setTime(theDate, tp.getCurrentHour(), tp.getCurrentMinute());
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-                }
+        theDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.date_picker);
+                dialog.setTitle("Title...");
+                final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
+
+                Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+                saveTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        setDate(theDate, dp.getMonth(), dp.getDayOfMonth(), dp.getYear());
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
 
 
+
         final TextView theTime = (TextView) findViewById(R.id.theTime);
-        theTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        theTime.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -114,10 +120,14 @@ public class AddNewEvent extends ActionBarActivity {
         });
 
 
+
+
+
         setAutoComplete();
+
     }
 
-    // Repopulating auto complete when done adding new location
+// Repopulating auto complete when done adding new location
 
     protected void onActivityResult(int a, int b, Intent intent) {
         setAutoComplete();
@@ -167,6 +177,14 @@ public class AddNewEvent extends ActionBarActivity {
 
     private void setTime(TextView theTime, int hour, int minute){
         theTime.setText( (hour - 1 % 12) + 1 + ":" + minute + " " + (hour/12 != 0? "PM": "AM"));
+
+    }
+
+    private void setDate(TextView theDate, int month, int day, int year){
+        theDate.setText( month + "/" + day + "/" + year);
+
+    }
+    public void showDateDialog(View v){
 
     }
 }
