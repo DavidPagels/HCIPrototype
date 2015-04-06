@@ -1,19 +1,25 @@
 package com.example.david.hciprototype;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -26,6 +32,7 @@ public class NewActivity extends ActionBarActivity {
     AutoCompleteTextView aCTV = null;
     EventHash.LocationHash locations;
     EventHash eventHash = null;
+    Context context = this;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,12 @@ public class NewActivity extends ActionBarActivity {
                 startActivityForResult(myIntent, 1);
             }
         });
+
+        TextView setDate = (TextView) findViewById(R.id.theDate);
+
+
+        TextView theTime = (TextView) findViewById(R.id.theTime);
+
 
         setAutoComplete();
     }
@@ -110,5 +123,10 @@ public class NewActivity extends ActionBarActivity {
             }
 
         });
+    }
+
+    private void setTime(TextView theTime, int hour, int minute){
+        theTime.setText( (hour - 1 % 12) + 1 + ":" + minute + " " + (hour/12 != 0? "PM": "AM"));
+
     }
 }

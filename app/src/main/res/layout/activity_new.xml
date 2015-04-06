@@ -16,6 +16,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
 
+    <TextView
+        android:id="@+id/eventLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/textView3"
+        android:layout_alignRight="@+id/locLabel"
+        android:layout_alignEnd="@+id/locLabel" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,13 +39,15 @@
         android:layout_alignStart="@+id/textView3"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
     <TextView
-        android:id="@+id/eventLabel"
+        android:id="@+id/locLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/event_label"
+        android:singleLine="true"
+        android:text="@string/loc_label"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/eventLabel"
         android:layout_marginTop="45dp"
         android:layout_toLeftOf="@id/eventTitle"
         android:layout_toStartOf="@id/eventTitle"/>
@@ -51,26 +64,6 @@
         android:layout_alignRight="@+id/eventTitle"
         android:layout_alignEnd="@+id/eventTitle" />
 
-    <TextView
-        android:id="@+id/locLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="@string/loc_label"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/eventLabel"
-        android:layout_marginTop="45dp"
-        android:layout_toLeftOf="@id/eventTitle"
-        android:layout_toStartOf="@id/eventTitle"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Event"
-        android:id="@+id/createEvent"
-        android:layout_below="@+id/addLocation"
-        android:layout_centerHorizontal="true" />
-
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -78,8 +71,63 @@
         android:text="Add Location"
         android:id="@+id/addLocation"
         android:layout_below="@+id/locMenu"
-        android:layout_alignLeft="@+id/createEvent"
-        android:layout_alignStart="@+id/createEvent" />
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/addLocation"
+        android:layout_alignLeft="@+id/locLabel"
+        android:layout_alignStart="@+id/locLabel" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/theDate"
+        android:text=""
+        android:hint="@string/theDate"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/dateLabel"
+        android:layout_toRightOf="@+id/dateLabel"
+        android:layout_toEndOf="@+id/dateLabel" />
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignTop="@+id/theTime"
+        android:layout_toLeftOf="@+id/theTime"
+        android:layout_toStartOf="@+id/theTime" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/theTime"
+        android:text=""
+        android:hint="@string/theTime"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/theDate"
+        android:layout_alignRight="@+id/locMenu"
+        android:layout_alignEnd="@+id/locMenu" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Event"
+        android:id="@+id/createEvent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/addLocation"
+        android:layout_alignStart="@+id/addLocation"
+        android:layout_marginBottom="40dp" />
+
+
 
 
 </RelativeLayout>

@@ -11,4 +11,9 @@
     <string name="event_title">Event Name</string>
     <string name="event_label">Event:</string>
     <string name="loc_label">Location:</string>
+    <string name="date_label">Date:</string>
+    <string name="theDate">Event Date</string>
+    <string name="time_label">Time:</string>
+    <string name="theTime">Event Time</string>
+
 </resources>
