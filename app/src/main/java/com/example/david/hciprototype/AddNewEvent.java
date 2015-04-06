@@ -1,25 +1,17 @@
 package com.example.david.hciprototype;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -28,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class NewActivity extends ActionBarActivity {
+public class AddNewEvent extends ActionBarActivity {
     AutoCompleteTextView aCTV = null;
     EventHash.LocationHash locations;
     EventHash eventHash = null;
@@ -64,7 +56,7 @@ public class NewActivity extends ActionBarActivity {
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(NewActivity.this, SetLocation.class);
+                Intent myIntent = new Intent(AddNewEvent.this, SetLocation.class);
                 startActivityForResult(myIntent, 1);
             }
         });
@@ -119,7 +111,7 @@ public class NewActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String selected = (String) arg0.getAdapter().getItem(arg2);
                 LatLng selectedCoors = locations.getCoordinates(selected);
-                Toast.makeText(NewActivity.this, "Coordinates:" + selectedCoors.latitude + "," + selectedCoors.longitude, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddNewEvent.this, "Coordinates:" + selectedCoors.latitude + "," + selectedCoors.longitude, Toast.LENGTH_SHORT).show();
             }
 
         });
