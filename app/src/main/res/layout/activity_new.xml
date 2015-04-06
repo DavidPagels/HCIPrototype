@@ -79,11 +79,10 @@
         android:layout_marginTop="10dp"
 />
 
-    <EditText
+    <TextView
         style="@style/LargeTextFullWidth"
         android:id="@+id/theDate"
         android:text=""
-        android:setClickable="true"
         android:onClick="setDateDialog"
         android:singleLine="true"
         android:hint="@string/theDate"
@@ -104,13 +103,13 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
 
-    <EditText
+    <TextView
         style="@style/LargeTextFullWidth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/theTime"
         android:text=""
-        android:hint="@string/theTime"
+        android:onClick="setTimeDialog"
         android:singleLine="true"
         android:layout_below="@+id/timeLabel"
         android:layout_alignParentLeft="true"
