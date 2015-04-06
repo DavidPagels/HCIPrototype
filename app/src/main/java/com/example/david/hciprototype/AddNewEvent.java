@@ -1,5 +1,6 @@
 package com.example.david.hciprototype;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -69,60 +70,8 @@ public class AddNewEvent extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         theDate.setText((calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
 
-        theDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.date_picker);
-                dialog.setTitle("Title...");
-                final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
-
-                Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
-                saveTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        setDate(theDate, dp.getMonth(), dp.getDayOfMonth(), dp.getYear());
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        });
-
-
-
         final TextView theTime = (TextView) findViewById(R.id.theTime);
-        theTime.setOnFocusChangeListener(new View.OnFocusChangeListener()
-        {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    final Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.time_picker);
-                    dialog.setTitle("Title...");
-                    final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
-
-                    Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
-                    saveTime.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            theTime.setFocusable(false);
-                            theTime.setFocusable(true);
-                            setTime(theTime, tp.getCurrentHour(), tp.getCurrentMinute());
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-                }
-            }
-        });
-
-
-
-
-
+        setTime(theTime, calendar.HOUR_OF_DAY, calendar.MINUTE);
         setAutoComplete();
 
     }
@@ -176,7 +125,14 @@ public class AddNewEvent extends ActionBarActivity {
     }
 
     private void setTime(TextView theTime, int hour, int minute){
-        theTime.setText( (hour - 1 % 12) + 1 + ":" + minute + " " + (hour/12 != 0? "PM": "AM"));
+        String paddedMin;
+        if(minute < 10) {
+            paddedMin = "0" + minute;
+        } else {
+            paddedMin = "" + minute;
+        }
+
+        theTime.setText( ((hour - 1) % 12) + 1 + ":" + paddedMin + " " + (hour/12 != 0? "PM": "AM"));
 
     }
 
@@ -184,7 +140,44 @@ public class AddNewEvent extends ActionBarActivity {
         theDate.setText( month + "/" + day + "/" + year);
 
     }
-    public void showDateDialog(View v){
+    public void setDateDialog(View v){
+                final TextView theDate = (TextView) findViewById(R.id.theDate);
 
-    }
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.date_picker);
+                dialog.setTitle("Title...");
+                final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
+
+                Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+                saveTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View vw) {
+
+                        setDate(theDate, dp.getMonth(), dp.getDayOfMonth(), dp.getYear());
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+     }
+
+    public void setTimeDialog(View v){
+        final TextView theTime = (TextView) findViewById(R.id.theTime);
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.time_picker);
+        dialog.setTitle("Title...");
+        final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
+
+        Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+        saveTime.setOnClickListener(new View.OnClickListener() {
+        @Override
+            public void onClick(View v) {
+                setTime(theTime, tp.getCurrentHour(), tp.getCurrentMinute());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        }
+
+
 }
