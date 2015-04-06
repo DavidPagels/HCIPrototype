@@ -7,14 +7,14 @@
     tools:context="com.example.david.hciprototype.NewActivity">
 
     <TextView
+        style="@style/LargeTextFullWidth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/new_event_title"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/eventLabel"
@@ -22,23 +22,21 @@
         android:layout_height="wrap_content"
         android:text="@string/event_label"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="46dp"
         android:layout_below="@+id/textView3"
-        android:layout_alignRight="@+id/locLabel"
-        android:layout_alignEnd="@+id/locLabel" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/LargeTextFullWidth"
         android:id="@+id/eventTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text=""
         android:hint="@string/event_title"
         android:singleLine="true"
-        android:layout_alignTop="@+id/eventLabel"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/eventLabel"
+    />
 
     <TextView
         android:id="@+id/locLabel"
@@ -47,31 +45,37 @@
         android:singleLine="true"
         android:text="@string/loc_label"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/eventLabel"
-        android:layout_marginTop="45dp"
-        android:layout_toLeftOf="@id/eventTitle"
-        android:layout_toStartOf="@id/eventTitle"/>
+        android:layout_below="@+id/eventTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
     <AutoCompleteTextView
+        android:id="@+id/locMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/locMenu"
-        android:hint="Location Name"
+        android:hint="Search My Places"
         android:singleLine="true"
-        android:layout_alignTop="@+id/locLabel"
-        android:layout_alignLeft="@+id/eventTitle"
-        android:layout_alignStart="@+id/eventTitle"
-        android:layout_alignRight="@+id/eventTitle"
-        android:layout_alignEnd="@+id/eventTitle" />
+        android:layout_below="@+id/locLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_weight="0.5"
+        android:textSize="30dp"
+        android:maxWidth="10dp"
+        android:layout_toLeftOf="@+id/addLocation"
+        android:layout_toStartOf="@+id/addLocation" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
+        android:id="@+id/addLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Location"
-        android:id="@+id/addLocation"
-        android:layout_below="@+id/locMenu"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/locMenu"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_weight="1"
+        android:text="+"
+        android:textSize="30dp" />
 
 
     <TextView
@@ -80,21 +84,23 @@
         android:layout_height="wrap_content"
         android:text="@string/date_label"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/addLocation"
-        android:layout_alignLeft="@+id/locLabel"
-        android:layout_alignStart="@+id/locLabel" />
+        android:layout_below="@+id/locMenu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+/>
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/LargeTextFullWidth"
         android:id="@+id/theDate"
         android:text=""
-        android:hint="@string/theDate"
         android:singleLine="true"
-        android:layout_alignTop="@+id/dateLabel"
-        android:layout_toRightOf="@+id/dateLabel"
-        android:layout_toEndOf="@+id/dateLabel" />
+        android:hint="@string/theDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/timeLabel"
@@ -102,30 +108,29 @@
         android:layout_height="wrap_content"
         android:text="@string/time_label"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_alignTop="@+id/theTime"
-        android:layout_toLeftOf="@+id/theTime"
-        android:layout_toStartOf="@+id/theTime" />
+        android:layout_below="@+id/theDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"/>
 
     <EditText
+        style="@style/LargeTextFullWidth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/theTime"
         android:text=""
         android:hint="@string/theTime"
         android:singleLine="true"
-        android:layout_alignTop="@+id/theDate"
-        android:layout_alignRight="@+id/locMenu"
-        android:layout_alignEnd="@+id/locMenu" />
+        android:layout_below="@+id/timeLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Event"
+        style="@style/LargeTextFullWidth"
         android:id="@+id/createEvent"
+        android:text="Create Event"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/addLocation"
-        android:layout_alignStart="@+id/addLocation"
-        android:layout_marginBottom="40dp" />
+        android:layout_centerHorizontal="true" />
 
 
 
