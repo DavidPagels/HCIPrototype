@@ -11,6 +11,7 @@
         android:theme="@style/Theme.AppCompat"
         android:name="com.example.david.hciprototype.EventHash">
 
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCD3Np7ZOVdt4B7XSFnuR8TDYB17Ufs7LQ"/>
@@ -29,8 +30,8 @@
             android:label="@string/title_activity_set_location" >
         </activity>
         <activity
-            android:name=".NewActivity"
-            android:label="@string/title_activity_new" >
+            android:name=".AddNewEvent"
+            android:label="@string/title_add_event" >
         </activity>
         <activity
             android:name=".SpeedPrompt"

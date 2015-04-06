@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.HashMap;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -31,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
         newEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, NewActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, AddNewEvent.class);
                 startActivity(myIntent);
             }
         });
