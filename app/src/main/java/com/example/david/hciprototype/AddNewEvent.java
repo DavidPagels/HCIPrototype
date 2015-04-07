@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -21,8 +22,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class AddNewEvent extends ActionBarActivity {
@@ -30,6 +33,7 @@ public class AddNewEvent extends ActionBarActivity {
     EventHash.LocationHash locations;
     EventHash eventHash = null;
     Context context = this;
+    Calendar savedDate;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,14 +70,16 @@ public class AddNewEvent extends ActionBarActivity {
             }
         });
 
-        final TextView theDate = (TextView) findViewById(R.id.theDate);
-        Calendar calendar = Calendar.getInstance();
-        theDate.setText((calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
+        savedDate = Calendar.getInstance();
 
         final TextView theTime = (TextView) findViewById(R.id.theTime);
-        setTime(theTime, calendar.HOUR_OF_DAY, calendar.MINUTE);
-        setAutoComplete();
+       // savedDate.add(Calendar.HOUR_OF_DAY, 1); maybe in the future
+        setTime(theTime, savedDate.get(Calendar.HOUR_OF_DAY), savedDate.get(Calendar.MINUTE));
 
+        final TextView theDate = (TextView) findViewById(R.id.theDate);
+        setDate(theDate, savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
+
+        setAutoComplete();
     }
 
 // Repopulating auto complete when done adding new location
@@ -125,19 +131,16 @@ public class AddNewEvent extends ActionBarActivity {
     }
 
     private void setTime(TextView theTime, int hour, int minute){
-        String paddedMin;
-        if(minute < 10) {
-            paddedMin = "0" + minute;
-        } else {
-            paddedMin = "" + minute;
-        }
 
-        theTime.setText( ((hour - 1) % 12) + 1 + ":" + paddedMin + " " + (hour/12 != 0? "PM": "AM"));
+        savedDate.set(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH), hour, minute);
+        theTime.setText(savedDate.get(Calendar.HOUR) + ":" + (savedDate.get(Calendar.MINUTE) < 10 ? "0": "")+ savedDate.get(Calendar.MINUTE) + " " + (savedDate.get(Calendar.AM_PM) == 0 ? "AM":"PM"));
 
     }
 
-    private void setDate(TextView theDate, int month, int day, int year){
-        theDate.setText( month + "/" + day + "/" + year);
+    private void setDate(TextView theDate, int year, int month, int day){
+        savedDate.set(year, month, day);
+
+        theDate.setText((month + 1) + "/" + day + "/" + year);
 
     }
     public void setDateDialog(View v){
@@ -145,15 +148,15 @@ public class AddNewEvent extends ActionBarActivity {
 
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.date_picker);
-                dialog.setTitle("Title...");
+                dialog.setTitle("Set Date");
                 final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
-
+                dp.updateDate(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
                 Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
                 saveTime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View vw) {
 
-                        setDate(theDate, dp.getMonth(), dp.getDayOfMonth(), dp.getYear());
+                        setDate(theDate,dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
                         dialog.dismiss();
                     }
                 });
@@ -165,8 +168,10 @@ public class AddNewEvent extends ActionBarActivity {
 
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.time_picker);
-        dialog.setTitle("Title...");
+        dialog.setTitle("Set Time");
         final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
+        tp.setCurrentHour(savedDate.get(Calendar.HOUR_OF_DAY));
+        tp.setCurrentMinute(savedDate.get(Calendar.MINUTE));
 
         Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
         saveTime.setOnClickListener(new View.OnClickListener() {
