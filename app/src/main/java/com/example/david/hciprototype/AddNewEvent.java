@@ -132,7 +132,13 @@ public class AddNewEvent extends ActionBarActivity {
     private void setTime(TextView theTime, int hour, int minute){
 
         savedDate.set(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH), hour, minute);
-        theTime.setText(savedDate.get(Calendar.HOUR) + ":" + (savedDate.get(Calendar.MINUTE) < 10 ? "0": "")+ savedDate.get(Calendar.MINUTE) + " " + (savedDate.get(Calendar.AM_PM) == 0 ? "AM":"PM"));
+        int clockHour;
+        if (savedDate.get(Calendar.HOUR) == 0) {
+            clockHour = savedDate.get(Calendar.HOUR) + 12;
+        } else {
+            clockHour = savedDate.get(Calendar.HOUR);
+        }
+        theTime.setText(clockHour + ":" + (savedDate.get(Calendar.MINUTE) < 10 ? "0": "")+ savedDate.get(Calendar.MINUTE) + " " + (savedDate.get(Calendar.AM_PM) == 0 ? "AM":"PM"));
 
     }
 
