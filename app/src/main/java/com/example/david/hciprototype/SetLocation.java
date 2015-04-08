@@ -28,10 +28,7 @@ public class SetLocation extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-                Location location = new Location(""); // hard coding morris, mn for now
-                location.setLatitude(45.5861);
-                location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location location = eventHash.getCurrentLocation();
 
                 // Only execute if gps location was found and the location hashmap doesn't contain label
                 if(location != null || !eventHash.locations.getLocationHash().containsKey(editText.getText().toString())){

@@ -4,22 +4,17 @@ import android.app.Application;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class EventHash extends Application {
-    public HashMap<String, Event> events;
+    public static HashMap<String, Event> events;
     public LocationHash locations;
 
     public void onCreate(){
@@ -31,12 +26,27 @@ public class EventHash extends Application {
         events.put(name, new Event(time, location));
     }
 
-    public String distanceToEvent(String event){
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = new Location(""); // hard coding morris, mn for now
-        location.setLatitude(45.5861);
-        location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    // Returns average speed needed to be on time
+    public double getAverageSpeed(String event){
+        Double dist = distanceToEvent(event);
+        Calendar timeOfEvent = events.get(event).eventTime();
+        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / 3600000.0; // hours between current time and event time
+        double average = dist / hoursDiff;
+        return average;
+    }
 
+    // Returns average speed needed to be on time with extra time (in minutes) to get ready
+    public double getAverageForNotification(String event, int extra){
+        Double dist = distanceToEvent(event);
+        Calendar timeOfEvent = events.get(event).eventTime();
+        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - extra * 1000) / 3600000.0;
+        double average = dist / hoursDiff;
+        return average;
+    }
+
+    public Double distanceToEvent(String event){
+
+        Location location = getCurrentLocation();
         // Only execute if gps location was found and the location hashmap doesn't contain label
         if(location != null) {
             // format the coordinates for Google
@@ -51,12 +61,21 @@ public class EventHash extends Application {
                 JSONObject jsonDirections = new JSONObject(theDirections);
 
                 // Get the distance between points
-                return jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("text").toString();
+                String distString = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("text").toString();
+                return Double.parseDouble(distString.split(" ")[0].replaceAll(",",""));
             } catch (Exception e) {
                 System.err.println("direction error " + e);
             }
         }
         return null;
+    }
+
+    public Location getCurrentLocation(){
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = new Location(""); // hard coding morris, mn for now
+        location.setLatitude(45.5861);
+        location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return location;
     }
 
 
@@ -73,13 +92,21 @@ public class EventHash extends Application {
 
 
     //--> Event class to store event time and location name
-    private class Event{
-        public Calendar eventTime;
-        public String location;
+    public class Event{
+        private Calendar eventTime;
+        private String location;
 
         public Event(Calendar eventTime, String location){
             this.eventTime = eventTime;
             this.location = location;
+        }
+
+        public Calendar eventTime(){
+            return eventTime;
+        }
+
+        public String getLocation(){
+            return location;
         }
     }
 

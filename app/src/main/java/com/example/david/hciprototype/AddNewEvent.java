@@ -51,9 +51,8 @@ public class AddNewEvent extends ActionBarActivity {
 
                     // Add the event info
                     String eventName = eventTitle.getText().toString();
-                    Calendar timeOfEvent = null;
                     String eventLocation = aCTV.getText().toString();
-                    eventHash.addEvent(eventName, timeOfEvent, eventLocation);
+                    eventHash.addEvent(eventName, savedDate, eventLocation);
 
                     finish();
                 }
@@ -73,7 +72,7 @@ public class AddNewEvent extends ActionBarActivity {
         savedDate = Calendar.getInstance();
 
         final TextView theTime = (TextView) findViewById(R.id.theTime);
-       // savedDate.add(Calendar.HOUR_OF_DAY, 1); maybe in the future
+        // savedDate.add(Calendar.HOUR_OF_DAY, 1); maybe in the future
         setTime(theTime, savedDate.get(Calendar.HOUR_OF_DAY), savedDate.get(Calendar.MINUTE));
 
         final TextView theDate = (TextView) findViewById(R.id.theDate);
@@ -144,24 +143,24 @@ public class AddNewEvent extends ActionBarActivity {
 
     }
     public void setDateDialog(View v){
-                final TextView theDate = (TextView) findViewById(R.id.theDate);
+        final TextView theDate = (TextView) findViewById(R.id.theDate);
 
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.date_picker);
-                dialog.setTitle("Set Date");
-                final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
-                dp.updateDate(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
-                Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
-                saveTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View vw) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.date_picker);
+        dialog.setTitle("Set Date");
+        final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
+        dp.updateDate(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
+        Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
+        saveTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vw) {
 
-                        setDate(theDate,dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-     }
+                setDate(theDate,dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
     public void setTimeDialog(View v){
         final TextView theTime = (TextView) findViewById(R.id.theTime);
@@ -175,14 +174,14 @@ public class AddNewEvent extends ActionBarActivity {
 
         Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
         saveTime.setOnClickListener(new View.OnClickListener() {
-        @Override
+            @Override
             public void onClick(View v) {
                 setTime(theTime, tp.getCurrentHour(), tp.getCurrentMinute());
                 dialog.dismiss();
             }
         });
         dialog.show();
-        }
+    }
 
 
 }

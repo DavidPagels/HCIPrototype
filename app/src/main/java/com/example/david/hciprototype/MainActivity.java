@@ -1,6 +1,7 @@
 package com.example.david.hciprototype;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,9 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import static java.util.concurrent.TimeUnit.*;
+
 
 public class MainActivity extends ActionBarActivity {
-
+    boolean openNewSpeedPrompt = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,17 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(myIntent);
             }
         });
+
+        if(savedInstanceState == null){
+            final Runnable checkEvents = new Runnable() {
+                public void run() {
+                    promptCheck();
+                }
+            };
+            final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            final ScheduledFuture eventHandler = scheduler.scheduleWithFixedDelay(checkEvents, 0, 13, SECONDS);
+        }
+
     }
 
 
@@ -54,4 +71,29 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    // Periodically check for upcoming events
+    public void promptCheck(){
+
+        for (String event : EventHash.events.keySet()) {
+            Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event, 10);
+            if(averageSpeed >= 2.5 && openNewSpeedPrompt){
+                Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
+                speedPrompt.putExtra("event",event);
+                startActivity(speedPrompt);
+                openNewSpeedPrompt=false;
+            }
+        }
+    }
+
+
+    // Allow the program to open the next event
+    public void onActivityResult(int i, int j, Intent intent){
+        System.out.println(intent.getClass().getSimpleName());
+        openNewSpeedPrompt = true;
+    }
+
+
 }

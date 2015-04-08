@@ -1,11 +1,17 @@
 package com.example.david.hciprototype;
 
 
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.location.Location;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,42 +21,90 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 public class SpeedPrompt extends ActionBarActivity {
     private GoogleMap map;
     private LatLng currentLocation;
+    EventHash eventHash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speed_prompt);
-        final TextView promptText = (TextView) findViewById(R.id.textView2);
-
-        // get the current location from SetLocation activity
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            currentLocation = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
-        }
+        eventHash = ((EventHash) getApplication());
+        final String event = extras.getString("event");
+
+        final TextView promptText = (TextView) findViewById(R.id.textView2);
+        final View thisView = promptText.getRootView();
+
+
+
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        //if(currentLocation == null)
-           //System.out.println("currentLocation is null!");
-        //if(promptText == null)
-            //System.out.println("promptText is null!");
-        promptText.setText("Latitude: " + currentLocation.latitude + ", Longitude: " + currentLocation.longitude);
+
+        promptText.setText("Begin Walking");
+        currentLocation = new LatLng(eventHash.getCurrentLocation().getLatitude(), eventHash.getCurrentLocation().getLongitude());
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
 
-        // Add the markers to the map
-        Marker currentMarker = map.addMarker(new MarkerOptions()
-                .position(currentLocation)
-                .title("Current Location"));
-        // Other location hard coded to Alexandria, MN for now
-        LatLng destLocation = new LatLng(45.8852, -95.3772);
-        Marker alexMarker = map.addMarker(new MarkerOptions()
+        map.setMyLocationEnabled(true);
+        String theLocation = eventHash.events.get(event).getLocation();
+        LatLng destLocation = eventHash.locations.getCoordinates(theLocation);
+        Marker destMarker = map.addMarker(new MarkerOptions()
                 .position(destLocation)
-                .title("Alexandria"));
+                .title(theLocation));
 
 
+
+        // Google map location update stuff -- in progress
+        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                //LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                // map.addMarker(new MarkerOptions().position(loc));
+                //if(map != null){
+                //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+                // }
+            }
+        };
+        map.setOnMyLocationChangeListener(myLocationChangeListener);
+
+
+
+        // Play ringtone for notification
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // Set up runnable for updates
+        if(savedInstanceState == null) {
+            final Handler handler = new Handler();
+
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if(!setPrompt(eventHash, thisView, event)){
+                        finish();
+                    }
+                    handler.postDelayed(this, 10000);
+                }
+            };
+
+            handler.postDelayed(runnable,10000);
+        }
     }
+
+
 
 
 
@@ -64,9 +118,7 @@ public class SpeedPrompt extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -77,6 +129,43 @@ public class SpeedPrompt extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
+    //--> A method to set the prompt and background color
+    public boolean setPrompt(EventHash eventHash, View thisView, String event){
+        TextView promptText = (TextView) findViewById(R.id.textView2);
+        Double average = eventHash.getAverageSpeed(event);
+
+        if(average > 5){
+            promptText.setText("Run or you will be late!");
+            thisView.setBackgroundColor(Color.RED);
+        }
+        else if(average > 3.5) {
+            promptText.setText("Walk quickly!");
+            thisView.setBackgroundColor(Color.YELLOW);
+        }
+        else if (average > 2) {
+            promptText.setText("You will be on time!");
+            thisView.setBackgroundColor(Color.GREEN);
+        }
+        else {
+            promptText.setText("You have some time to spare");
+            thisView.setBackgroundColor(Color.GREEN);
+        }
+
+        // If the user is within 1/20 of  a mile, end the speed prompt
+        if(eventHash.distanceToEvent(event) < .05){
+            promptText.setText("You made it to your event");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        return true;
+    }
 
 
 }
