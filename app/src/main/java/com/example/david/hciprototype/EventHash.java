@@ -78,7 +78,6 @@ public class EventHash extends Application {
         return location;
     }
 
-
     //--> returns a string of the format "fromlat,fromlong tolat,tolong"
     private String makeCoords(LatLng fromCoords, LatLng toCoords){
         String fromLat = Double.toString(fromCoords.latitude);

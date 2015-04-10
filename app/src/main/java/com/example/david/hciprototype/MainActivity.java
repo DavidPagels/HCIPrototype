@@ -1,7 +1,13 @@
 package com.example.david.hciprototype;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -82,7 +88,8 @@ public class MainActivity extends ActionBarActivity {
             if(averageSpeed >= 2.5 && openNewSpeedPrompt){
                 Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
                 speedPrompt.putExtra("event",event);
-                startActivity(speedPrompt);
+                pushNotification(speedPrompt, event);
+                //startActivity(speedPrompt);
                 openNewSpeedPrompt=false;
             }
         }
@@ -95,5 +102,32 @@ public class MainActivity extends ActionBarActivity {
         openNewSpeedPrompt = true;
     }
 
+    public void pushNotification(Intent speedIntent, String eventName) {
 
+       // final countdown ringtone
+        Uri soundUri = Uri.parse("android.resource://"
+                + this.getPackageName() + "/" + R.drawable.final_countdown);
+
+        // final fantasy victory song in vibrate
+        long[] vibrate = {0,50,100,50,100,50,100,400,100,300,100,350,50,200,100,100,50,600};
+
+        PendingIntent start = PendingIntent.getActivity(this, 0, speedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setTicker(eventName + " is starting soon...")
+                .setContentTitle("Time to Go!")
+                .setContentText("You should be preparing to leave NOW!")
+                .setSmallIcon(R.drawable.ic_clock)
+                .setPriority(2)
+                .setSound(soundUri)
+                .setVibrate(vibrate)
+                .setContentIntent(start);
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+        NotificationManager notifier = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+        notifier.notify(mNotificationId, notification.build());
+
+
+    }
 }
