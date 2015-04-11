@@ -16,10 +16,24 @@ import java.util.HashMap;
 public class EventHash extends Application {
     public static HashMap<String, Event> events;
     public LocationHash locations;
+    private int prepTime;
 
     public void onCreate(){
         events = new HashMap<String, Event>();
         locations = new LocationHash();
+        prepTime = 600000;
+    }
+
+    public void addPrepTime(int time2Add) {
+        prepTime += time2Add;
+    }
+
+    public int getPrepTime() {
+        return prepTime;
+    }
+
+    public int getPrepMin() {
+        return prepTime / 60000;
     }
 
     public void addEvent(String name, Calendar time, String location){
@@ -35,13 +49,30 @@ public class EventHash extends Application {
         return average;
     }
 
+
+    public double predictTime(LatLng loc){
+        double dist = distanceToEvent(loc);
+
+        return (dist * 60) / (2.5) + (prepTime / 60000);
+    }
+
     // Returns average speed needed to be on time with extra time (in minutes) to get ready
-    public double getAverageForNotification(String event, int extra){
+    public double getAverageForNotification(String event){
         Double dist = distanceToEvent(event);
         Calendar timeOfEvent = events.get(event).eventTime();
-        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - extra * 1000) / 3600000.0;
+        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - prepTime) / 3600000.0;
         double average = dist / hoursDiff;
         return average;
+    }
+
+    public double getTimeDiff(String event) {
+        Calendar timeOfEvent = events.get(event).eventTime();
+        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - prepTime) / 3600000.0;
+        return hoursDiff;
+    }
+
+    public boolean checkPrepDone(String event) {
+        return false;
     }
 
     public Double distanceToEvent(String event){
@@ -52,6 +83,32 @@ public class EventHash extends Application {
             // format the coordinates for Google
             LatLng fromCoords = new LatLng(location.getLatitude(), location.getLongitude());
             LatLng toCoords = locations.getCoordinates(events.get(event).location);
+            String coords = makeCoords(fromCoords, toCoords);
+
+            // Get Google's directions
+            GoogleDirections directions = new GoogleDirections();
+            try {
+                String theDirections = directions.execute(coords).get();
+                JSONObject jsonDirections = new JSONObject(theDirections);
+
+                // Get the distance between points
+                String distString = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("text").toString();
+                return Double.parseDouble(distString.split(" ")[0].replaceAll(",",""));
+            } catch (Exception e) {
+                System.err.println("direction error " + e);
+            }
+        }
+        return null;
+    }
+
+    public Double distanceToEvent(LatLng toCoords){
+
+        Location location = getCurrentLocation();
+        // Only execute if gps location was found and the location hashmap doesn't contain label
+        if(location != null) {
+            // format the coordinates for Google
+            LatLng fromCoords = new LatLng(location.getLatitude(), location.getLongitude());
+
             String coords = makeCoords(fromCoords, toCoords);
 
             // Get Google's directions
@@ -117,7 +174,7 @@ public class EventHash extends Application {
 
         public LocationHash(){
             locations = new HashMap<String, LatLng>();
-            locations.put("Roseville", new LatLng(40.7127837, -74.00594130000002) );
+            locations.put("Roseville", new LatLng(45.0061, -93.1567) );
             locations.put("Morris",new LatLng(45.5919444, -95.91888890000001) );
         }
 

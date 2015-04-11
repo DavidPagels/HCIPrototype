@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
     public void promptCheck(){
 
         for (String event : EventHash.events.keySet()) {
-            Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event, 10);
+            Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event);
             if(averageSpeed >= 2.5 && openNewSpeedPrompt){
                 Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
                 speedPrompt.putExtra("event",event);

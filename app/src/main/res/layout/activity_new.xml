@@ -121,7 +121,7 @@
     <Button
         style="@style/LargeTextFullWidth"
         android:id="@+id/createEvent"
-        android:text="Create Event"
+        android:text="@string/create_event"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

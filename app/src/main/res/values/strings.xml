@@ -15,5 +15,6 @@
     <string name="theDate">Event Date</string>
     <string name="time_label">Time:</string>
     <string name="theTime">Event Time</string>
+    <string name="create_event">ADD EVENT</string>
 
 </resources>

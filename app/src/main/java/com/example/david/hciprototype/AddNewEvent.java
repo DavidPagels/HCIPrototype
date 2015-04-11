@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -67,6 +68,7 @@ public class AddNewEvent extends ActionBarActivity {
 
         final TextView theTime = (TextView) findViewById(R.id.theTime);
         // savedDate.add(Calendar.HOUR_OF_DAY, 1); maybe in the future
+
         setTime(theTime, savedDate.get(Calendar.HOUR_OF_DAY), savedDate.get(Calendar.MINUTE));
 
         final TextView theDate = (TextView) findViewById(R.id.theDate);
@@ -117,7 +119,18 @@ public class AddNewEvent extends ActionBarActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String selected = (String) arg0.getAdapter().getItem(arg2);
                 LatLng selectedCoors = locations.getCoordinates(selected);
-                Toast.makeText(AddNewEvent.this, "Coordinates:" + selectedCoors.latitude + "," + selectedCoors.longitude, Toast.LENGTH_SHORT).show();
+
+                Double dist = eventHash.predictTime(selectedCoors);
+                Toast.makeText(AddNewEvent.this, "Coordinates:" + dist, Toast.LENGTH_SHORT).show();
+                final TextView theTime = (TextView) findViewById(R.id.theTime);
+                final TextView theDate = (TextView) findViewById(R.id.theDate);
+                savedDate.add(Calendar.MINUTE, dist.intValue() + (eventHash.getPrepTime()/ 60000));
+                setDate(theDate, savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
+                setTime(theTime, savedDate.get(Calendar.HOUR_OF_DAY), savedDate.get(Calendar.MINUTE));
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(aCTV.getWindowToken(), 0);
+
             }
 
         });
@@ -155,7 +168,7 @@ public class AddNewEvent extends ActionBarActivity {
             @Override
             public void onClick(View vw) {
 
-                setDate(theDate,dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
+                setDate(theDate, dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
                 dialog.dismiss();
             }
         });
