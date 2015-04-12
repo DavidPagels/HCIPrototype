@@ -131,7 +131,8 @@ public class EventHash extends Application {
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Location location = new Location(""); // hard coding morris, mn for now
         location.setLatitude(45.5861);
-        location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        location.setLongitude(-95.9139);
+        //Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         return location;
     }
 
