@@ -3,7 +3,9 @@ package com.example.david.hciprototype;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
@@ -27,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button submitButton = (Button) findViewById(R.id.newLoc);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +85,16 @@ public class MainActivity extends ActionBarActivity {
 
     // Periodically check for upcoming events
     public void promptCheck(){
-
+        System.out.println("Inside prompt check");
+        System.out.println(EventHash.events.size());
         for (String event : EventHash.events.keySet()) {
             Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event);
+            System.out.println("Speed " + averageSpeed);
             if(averageSpeed >= 2.5 && openNewSpeedPrompt){
                 Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
                 speedPrompt.putExtra("event",event);
                 pushNotification(speedPrompt, event);
-                //startActivity(speedPrompt);
+                startActivity(speedPrompt);
                 openNewSpeedPrompt=false;
             }
         }

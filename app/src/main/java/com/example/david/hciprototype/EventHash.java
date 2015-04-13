@@ -3,7 +3,9 @@ package com.example.david.hciprototype;
 import android.app.Application;
 import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,11 +19,13 @@ public class EventHash extends Application {
     public static HashMap<String, Event> events;
     public LocationHash locations;
     private int prepTime;
+    public static Location locat;
 
     public void onCreate(){
         events = new HashMap<String, Event>();
         locations = new LocationHash();
         prepTime = 600000;
+        startGPSListener();
     }
 
     public void addPrepTime(int time2Add) {
@@ -53,7 +57,7 @@ public class EventHash extends Application {
     public double predictTime(LatLng loc){
         double dist = distanceToEvent(loc);
 
-        return (dist * 60) / (2.5) + (prepTime / 60000);
+        return dist * 60 / 2.5 + prepTime / 60000.0;
     }
 
     // Returns average speed needed to be on time with extra time (in minutes) to get ready
@@ -61,7 +65,10 @@ public class EventHash extends Application {
         Double dist = distanceToEvent(event);
         Calendar timeOfEvent = events.get(event).eventTime();
         Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - prepTime) / 3600000.0;
+        System.out.println("after hoursDiff " + dist + ", " + hoursDiff * 60);
         double average = dist / hoursDiff;
+
+        System.out.println("average " + average);
         return average;
     }
 
@@ -104,6 +111,8 @@ public class EventHash extends Application {
     public Double distanceToEvent(LatLng toCoords){
 
         Location location = getCurrentLocation();
+        if(location == null)
+            System.out.println("location is null");
         // Only execute if gps location was found and the location hashmap doesn't contain label
         if(location != null) {
             // format the coordinates for Google
@@ -128,11 +137,32 @@ public class EventHash extends Application {
     }
 
     public Location getCurrentLocation(){
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = new Location(""); // hard coding morris, mn for now
-        location.setLatitude(45.5861);
-        location.setLongitude(-95.9139);//lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return location;
+        return locat;
+    }
+
+    public void startGPSListener() {
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                locat = location;
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+
+// Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
     //--> returns a string of the format "fromlat,fromlong tolat,tolong"
