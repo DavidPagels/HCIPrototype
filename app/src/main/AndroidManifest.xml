@@ -18,6 +18,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCoL2F1koWFZGr1U-R43uatH3cIKHki4VY"/>
+<!-- debug key
+         AIzaSyCD3Np7ZOVdt4B7XSFnuR8TDYB17Ufs7LQ
+     release key
+         AIzaSyCoL2F1koWFZGr1U-R43uatH3cIKHki4VY
+-->
 
         <activity
             android:name=".MainActivity"
