@@ -195,7 +195,7 @@ public class SpeedPrompt extends ActionBarActivity {
         }
 
         // If the user is within 1/20 of  a mile, end the speed prompt
-        if(eventHash.distanceToEvent(event) < .05){
+        if(eventHash.distanceToEvent(event) < .01){
             promptText.setText("You made it to your event");
             try {
                 Thread.sleep(10000);

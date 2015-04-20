@@ -119,12 +119,12 @@ public class AddNewEvent extends ActionBarActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String selected = (String) arg0.getAdapter().getItem(arg2);
                 LatLng selectedCoors = locations.getCoordinates(selected);
-
+                savedDate = Calendar.getInstance();
                 Double dist = eventHash.predictTime(selectedCoors);
                 Toast.makeText(AddNewEvent.this, "Coordinates:" + dist, Toast.LENGTH_SHORT).show();
                 final TextView theTime = (TextView) findViewById(R.id.theTime);
                 final TextView theDate = (TextView) findViewById(R.id.theDate);
-                savedDate.add(Calendar.MINUTE, dist.intValue() + (eventHash.getPrepTime()/ 60000));
+                savedDate.add(Calendar.MINUTE, dist.intValue());
                 setDate(theDate, savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
                 setTime(theTime, savedDate.get(Calendar.HOUR_OF_DAY), savedDate.get(Calendar.MINUTE));
                 InputMethodManager imm = (InputMethodManager)getSystemService(
