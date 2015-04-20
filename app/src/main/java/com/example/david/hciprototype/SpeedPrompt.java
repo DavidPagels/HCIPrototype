@@ -163,31 +163,31 @@ public class SpeedPrompt extends ActionBarActivity {
             thisView.setBackgroundColor(Color.rgb(255,90,0));
             soundUri = Uri.parse("android.resource://"
                     + this.getPackageName() + "/" + R.drawable.trouble);
-            prevSpeed = 10;
+            prevSpeed = 10.0;
         }
         else if(average > 6){
             promptText.setText("Better start jogging...");
             speedText.setText("Pace: Light Jog");
             thisView.setBackgroundColor(Color.rgb(255,155,0));
-            prevSpeed = 8;
+            prevSpeed = 8.0;
         }
         else if(average > 4) {
             promptText.setText("Walk quickly!");
             speedText.setText("Pace: Power Walk");
             thisView.setBackgroundColor(Color.YELLOW);
-            prevSpeed = 6;
+            prevSpeed = 6.0;
         }
         else if (average > 2) {
             promptText.setText("You will be on time!");
             speedText.setText("Pace: Normal Walk");
             thisView.setBackgroundColor(Color.GREEN);
-            prevSpeed = 4;
+            prevSpeed = 4.0;
         }
         else {
             promptText.setText("You have some time to spare");
             speedText.setText("Pace: Casual Scroll");
             thisView.setBackgroundColor(Color.GREEN);
-            prevSpeed = 2;
+            prevSpeed = 2.0;
         }
 
         if(storePrevSpeed < average) {
@@ -195,8 +195,9 @@ public class SpeedPrompt extends ActionBarActivity {
         }
 
         // If the user is within 1/20 of  a mile, end the speed prompt
-        if(eventHash.distanceToEvent(event) < .01){
+        if(eventHash.distanceToEvent(event) < .05){
             promptText.setText("You made it to your event");
+            speedText.setText("Hooray!");
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
@@ -220,7 +221,7 @@ public class SpeedPrompt extends ActionBarActivity {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_exclamation)
-                .setPriority(2)
+                .setPriority(1)
                 .setSound(soundUri)
                 .setVibrate(vibrate)
                 .setContentIntent(start);

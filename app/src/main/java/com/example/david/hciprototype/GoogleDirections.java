@@ -10,7 +10,7 @@ import java.net.URL;
 public class GoogleDirections extends AsyncTask<String, Void, String> {
         String returnedJSON = "";
         protected String doInBackground(String ... params){
-            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + params[0].split(" ")[0] + "&destination=" + params[0].split(" ")[1];
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + params[0].split(" ")[0] + "&destination=" + params[0].split(" ")[1] + "&mode=walking";
             try {
                 System.out.println("Inside try");
                 URL obj = new URL(url);
