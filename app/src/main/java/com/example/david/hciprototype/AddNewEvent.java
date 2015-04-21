@@ -163,6 +163,7 @@ public class AddNewEvent extends ActionBarActivity {
         dialog.setTitle("Set Date");
         final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker1);
         dp.updateDate(savedDate.get(Calendar.YEAR), savedDate.get(Calendar.MONTH), savedDate.get(Calendar.DAY_OF_MONTH));
+        dp.setMinDate(Calendar.getInstance().getTimeInMillis() - 1000);
         Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
         saveTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,14 +183,21 @@ public class AddNewEvent extends ActionBarActivity {
         dialog.setContentView(R.layout.time_picker);
         dialog.setTitle("Set Time");
         final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker1);
-        tp.setCurrentHour(savedDate.get(Calendar.HOUR_OF_DAY));
-        tp.setCurrentMinute(savedDate.get(Calendar.MINUTE));
+        final int currentHour = savedDate.get(Calendar.HOUR_OF_DAY);
+        final int currentMinute = savedDate.get(Calendar.MINUTE);
+        tp.setCurrentHour(currentHour);
+        tp.setCurrentMinute(currentMinute);
 
         Button saveTime = (Button) dialog.findViewById(R.id.saveTime);
         saveTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 setTime(theTime, tp.getCurrentHour(), tp.getCurrentMinute());
+                if(savedDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis()) {
+                    setTime(theTime, currentHour, currentMinute);
+                    Toast.makeText(AddNewEvent.this, "Can't set event in the past. Change date first.", Toast.LENGTH_SHORT).show();
+                }
                 dialog.dismiss();
             }
         });

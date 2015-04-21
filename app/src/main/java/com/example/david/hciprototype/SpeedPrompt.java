@@ -201,10 +201,11 @@ public class SpeedPrompt extends ActionBarActivity {
             speedText.setText("Oh no!");
             sendEndNotification(this, event, false);
             try {
-                Thread.sleep(20000);
+                Thread.sleep(9000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            return false;
         }
         return true;
     }
