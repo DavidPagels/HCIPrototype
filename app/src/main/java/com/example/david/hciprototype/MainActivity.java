@@ -118,6 +118,7 @@ public class MainActivity extends ActionBarActivity {
                 .setPriority(2)
                 .setSound(soundUri)
                 .setVibrate(vibrate)
+                .setAutoCancel(true)
                 .setContentIntent(start);
         // Sets an ID for the notification
         int mNotificationId = 001;

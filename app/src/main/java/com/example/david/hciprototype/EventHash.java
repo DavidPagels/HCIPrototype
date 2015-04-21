@@ -205,6 +205,10 @@ public class EventHash extends Application {
             locations = new HashMap<String, LatLng>();
             locations.put("Roseville", new LatLng(45.0061, -93.1567) );
             locations.put("Spooner",new LatLng(45.589321, -95.900281) );
+            locations.put("HCI",new LatLng(45.589257, -95.902834) );
+            locations.put("Big Cat",new LatLng(45.586419, -95.899508) );
+            locations.put("Old Number One",new LatLng(45.585689, -95.913506) );
+            locations.put("Willie's",new LatLng(45.588596, -95.914915) );
         }
 
         public void addLocation(String location, double latitude, double longitude) {

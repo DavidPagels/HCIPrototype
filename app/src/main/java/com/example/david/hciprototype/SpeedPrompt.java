@@ -191,6 +191,7 @@ public class SpeedPrompt extends ActionBarActivity {
             speedText.setText("Hooray!");
             try {
                 Thread.sleep(10000);
+                sendEndNotification(this, event, true);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -198,6 +199,7 @@ public class SpeedPrompt extends ActionBarActivity {
         } else if(eventHash.getTimeDiff(event) < 0) {
             promptText.setText("We will add more time for preparation next time!");
             speedText.setText("Oh no!");
+            sendEndNotification(this, event, false);
             try {
                 Thread.sleep(20000);
             } catch (InterruptedException e) {
@@ -222,6 +224,7 @@ public class SpeedPrompt extends ActionBarActivity {
                 .setSmallIcon(R.drawable.ic_exclamation)
                 .setPriority(1)
                 .setSound(soundUri)
+                .setAutoCancel(true)
                 .setVibrate(vibrate)
                 .setContentIntent(start);
         // Sets an ID for the notification
@@ -230,7 +233,7 @@ public class SpeedPrompt extends ActionBarActivity {
 // Builds the notification and issues it.
         notifier.notify(mNotificationId, notification.build());
     }
-    public void sendEndNotification(Context context, Uri soundUri, String event, boolean arrived) {
+    public void sendEndNotification(Context context, String event, boolean arrived) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         long[] vibrate = {0,50,100,50, 120, 50, 140, 50, 150};
         String message = "";
@@ -251,7 +254,7 @@ public class SpeedPrompt extends ActionBarActivity {
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_exclamation)
                 .setPriority(0)
-                //.setSound(soundUri)
+                .setAutoCancel(true)
                 .setVibrate(vibrate)
                 .setContentIntent(start);
         // Sets an ID for the notification
