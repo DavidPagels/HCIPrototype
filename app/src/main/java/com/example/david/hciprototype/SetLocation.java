@@ -1,9 +1,6 @@
 package com.example.david.hciprototype;
 
-import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.model.LatLng;
 
 
 public class SetLocation extends ActionBarActivity {
@@ -36,8 +31,6 @@ public class SetLocation extends ActionBarActivity {
                     String eventLocation = editText.getText().toString();
                     eventHash.locations.addLocation(eventLocation, location.getLatitude(), location.getLongitude());
                     finish();
-                } else {
-                    System.out.println("location was null");
                 }
 
             }

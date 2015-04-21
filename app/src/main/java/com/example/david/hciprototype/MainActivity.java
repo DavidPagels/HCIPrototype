@@ -1,14 +1,9 @@
 package com.example.david.hciprototype;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -85,11 +80,8 @@ public class MainActivity extends ActionBarActivity {
 
     // Periodically check for upcoming events
     public void promptCheck(){
-        System.out.println("Inside prompt check");
-        System.out.println(EventHash.events.size());
         for (String event : EventHash.events.keySet()) {
             Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event);
-            System.out.println("Speed " + averageSpeed);
             ((EventHash)getApplication()).getAverageForNotification(event);
             if(averageSpeed >= 2.5 && openNewSpeedPrompt){
                 Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
@@ -104,7 +96,6 @@ public class MainActivity extends ActionBarActivity {
 
     // Allow the program to open the next event
     public void onActivityResult(int i, int j, Intent intent){
-        System.out.println(intent.getClass().getSimpleName());
         openNewSpeedPrompt = true;
     }
 
