@@ -49,7 +49,6 @@ public class EventHash extends Application {
         Double dist = distanceToEvent(event);
         Calendar timeOfEvent = events.get(event).eventTime();
         Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / 3600000.0;
-        System.out.println("not hours diff" + hoursDiff);// hours between current time and event time
         double average = dist / hoursDiff;
         return average;
     }
@@ -66,17 +65,14 @@ public class EventHash extends Application {
         Double dist = distanceToEvent(event);
         Calendar timeOfEvent = events.get(event).eventTime();
         Double hoursDiff = getTimeDiff(event);
-        System.out.println("after hoursDiff " + dist.doubleValue() + ", " + hoursDiff.doubleValue() * 60);
         double average = dist.doubleValue() / hoursDiff.doubleValue();
 
-        System.out.println("average " + average);
         return average;
     }
 
     public double getTimeDiff(String event) {
         Calendar timeOfEvent = events.get(event).eventTime();
         Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - prepTime) / 3600000.0;
-        System.out.println("hours diff" + hoursDiff);
         return hoursDiff;
     }
 
@@ -114,8 +110,6 @@ public class EventHash extends Application {
     public Double distanceToEvent(LatLng toCoords){
 
         Location location = getCurrentLocation();
-        if(location == null)
-            System.out.println("location is null");
         // Only execute if gps location was found and the location hashmap doesn't contain label
         if(location != null) {
             // format the coordinates for Google
@@ -133,7 +127,6 @@ public class EventHash extends Application {
 
                 String distStringMeters = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("value").toString();
                 Double dist = Double.parseDouble(distStringMeters.split(" ")[0].replaceAll(",",""));
-                System.out.println("dist from google: " + distStringMeters);
 
                 return dist*0.000621371;
             } catch (Exception e) {

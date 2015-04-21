@@ -12,13 +12,10 @@ public class GoogleDirections extends AsyncTask<String, Void, String> {
         protected String doInBackground(String ... params){
             String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + params[0].split(" ")[0] + "&destination=" + params[0].split(" ")[1] + "&mode=walking";
             try {
-                System.out.println("Inside try");
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                System.out.println("After getconnection");
                 // optional default is GET
                 con.setRequestMethod("GET");
-                System.out.println("After request type");
                 //add request header
                 con.setRequestProperty("User-Agent", "Mozilla/5.0");
 
