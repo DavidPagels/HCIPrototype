@@ -103,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
 
        // final countdown ringtone
         Uri soundUri = Uri.parse("android.resource://"
-                + this.getPackageName() + "/" + R.drawable.final_countdown);
+                + this.getPackageName() + "/" + R.raw.final_countdown);
 
         // final fantasy victory song in vibrate
         long[] vibrate = {0,50,100,50,100,50,100,400,100,300,100,350,50,200,100,100,50,600};
