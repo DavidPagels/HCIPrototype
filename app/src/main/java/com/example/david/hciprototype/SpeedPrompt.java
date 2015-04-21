@@ -195,17 +195,25 @@ public class SpeedPrompt extends ActionBarActivity {
                 e.printStackTrace();
             }
             return false;
+        } else if(eventHash.getTimeDiff(event) < 0) {
+            promptText.setText("We will add more time for preparation next time!");
+            speedText.setText("Oh no!");
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }
 
     public void sendNotification(Context context, Uri soundUri, String event) {
-        long[] vibrate = {0,50,100,50, 120, 50, 140, 50, 150};
+        long[] vibrate = {0, 50, 100, 50, 120, 50, 140, 50, 150};
         Intent notificationIntent = new Intent(context, SpeedPrompt.class);
         notificationIntent.putExtra("event", event);
         notificationIntent.putExtra("update", true);
         PendingIntent start = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String message = "You need to change your speed or you might not make it to " + event + "! Click for details...";
+        String message = "You need to change your speed or you might not make it to " + event + "! Tap for details...";
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setTicker("Speed Alert!")
                 .setContentTitle("Speed Alert!")
@@ -214,6 +222,36 @@ public class SpeedPrompt extends ActionBarActivity {
                 .setSmallIcon(R.drawable.ic_exclamation)
                 .setPriority(1)
                 .setSound(soundUri)
+                .setVibrate(vibrate)
+                .setContentIntent(start);
+        // Sets an ID for the notification
+        int mNotificationId = 002;
+        NotificationManager notifier = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+        notifier.notify(mNotificationId, notification.build());
+    }
+    public void sendEndNotification(Context context, Uri soundUri, String event, boolean arrived) {
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        long[] vibrate = {0,50,100,50, 120, 50, 140, 50, 150};
+        String message = "";
+        String ticker = "";
+        PendingIntent start = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (arrived) {
+            message = "You made it to " + event + "! Hooray!";
+            ticker = "You made it!";
+        } else {
+            message = "You didn't make it to " + event + "! We will add more preparation time...";
+            ticker = "You're late!";
+        }
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setTicker(ticker)
+                .setContentTitle(ticker)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_exclamation)
+                .setPriority(0)
+                //.setSound(soundUri)
                 .setVibrate(vibrate)
                 .setContentIntent(start);
         // Sets an ID for the notification

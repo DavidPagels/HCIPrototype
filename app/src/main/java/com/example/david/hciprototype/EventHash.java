@@ -48,7 +48,7 @@ public class EventHash extends Application {
     public double getAverageSpeed(String event){
         Double dist = distanceToEvent(event);
         Calendar timeOfEvent = events.get(event).eventTime();
-        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / 3600000.0;
+        Double hoursDiff = getTimeDiff(event);
         double average = dist / hoursDiff;
         return average;
     }
@@ -63,8 +63,7 @@ public class EventHash extends Application {
     // Returns average speed needed to be on time with extra time (in minutes) to get ready
     public double getAverageForNotification(String event){
         Double dist = distanceToEvent(event);
-        Calendar timeOfEvent = events.get(event).eventTime();
-        Double hoursDiff = getTimeDiff(event);
+        Double hoursDiff = getTimeDiff(event)-(prepTime/3600000.0);
         double average = dist.doubleValue() / hoursDiff.doubleValue();
 
         return average;
@@ -72,7 +71,7 @@ public class EventHash extends Application {
 
     public double getTimeDiff(String event) {
         Calendar timeOfEvent = events.get(event).eventTime();
-        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() - prepTime) / 3600000.0;
+        Double hoursDiff = (timeOfEvent.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / 3600000.0;
         return hoursDiff;
     }
 
