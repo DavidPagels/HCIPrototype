@@ -101,8 +101,9 @@ public class EventHash extends Application {
                 JSONObject jsonDirections = new JSONObject(theDirections);
 
                 // Get the distance between points
-                String distString = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("text").toString();
-                return Double.parseDouble(distString.split(" ")[0].replaceAll(",",""));
+                String distStringMeters = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("value").toString();
+                Double dist = Double.parseDouble(distStringMeters.split(" ")[0].replaceAll(",",""));
+                return dist*0.000621371;
             } catch (Exception e) {
                 System.err.println("direction error " + e);
             }
@@ -132,6 +133,8 @@ public class EventHash extends Application {
 
                 String distStringMeters = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("value").toString();
                 Double dist = Double.parseDouble(distStringMeters.split(" ")[0].replaceAll(",",""));
+                System.out.println("dist from google: " + distStringMeters);
+
                 return dist*0.000621371;
             } catch (Exception e) {
                 System.err.println("direction error " + e);
