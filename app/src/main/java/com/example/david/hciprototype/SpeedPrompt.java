@@ -154,7 +154,7 @@ public class SpeedPrompt extends ActionBarActivity {
             speedText.setText("Pace: Dead Sprint");
             thisView.setBackgroundColor(Color.RED);
             soundUri = Uri.parse("android.resource://"
-                    + this.getPackageName() + "/" + R.drawable.trouble);
+                    + this.getPackageName() + "/" + R.raw.trouble);
             prevSpeed = 1000;
         }
         else if(average > 8){
@@ -162,7 +162,7 @@ public class SpeedPrompt extends ActionBarActivity {
             speedText.setText("Pace: Fast Jog");
             thisView.setBackgroundColor(Color.rgb(255,90,0));
             soundUri = Uri.parse("android.resource://"
-                    + this.getPackageName() + "/" + R.drawable.trouble);
+                    + this.getPackageName() + "/" + R.raw.trouble);
             prevSpeed = 10.0;
         }
         else if(average > 6){
