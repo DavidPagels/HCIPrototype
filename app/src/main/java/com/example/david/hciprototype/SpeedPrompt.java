@@ -26,6 +26,10 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
 
 
 public class SpeedPrompt extends ActionBarActivity {
@@ -75,6 +79,7 @@ public class SpeedPrompt extends ActionBarActivity {
             }
         };
         map.setOnMyLocationChangeListener(myLocationChangeListener);
+        drawRoute();
 
 
 
@@ -140,6 +145,9 @@ public class SpeedPrompt extends ActionBarActivity {
         speedText.setTextColor(Color.BLACK);
         Uri soundUri = Settings.System.DEFAULT_NOTIFICATION_URI;
         double storePrevSpeed = prevSpeed;
+
+        drawRoute();
+
         if(average > 10){
             promptText.setText("Sprint or get on a bike!");
             speedText.setText("Pace: Dead Sprint");
@@ -264,5 +272,18 @@ public class SpeedPrompt extends ActionBarActivity {
 // Builds the notification and issues it.
         notifier.notify(mNotificationId, notification.build());
 
+    }
+
+
+    public void drawRoute(){
+        // Draw the latest polyline on the map
+        ArrayList<LatLng> directionPoint = eventHash.getDirection();
+        PolylineOptions rectLine = new PolylineOptions().width(6).color(
+                Color.RED);
+
+        for (int i = 0; i < directionPoint.size(); i++) {
+            rectLine.add(directionPoint.get(i));
+        }
+        Polyline polylin = map.addPolyline(rectLine);
     }
 }
