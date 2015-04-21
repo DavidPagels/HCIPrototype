@@ -27,9 +27,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a9348fa-f03a-4da5-a4c0-0de66fdf2546" name="Default" comment="added clickable stuff and calendar/time working. Current time broken&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/AddNewEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/AddNewEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/SpeedPrompt.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/SpeedPrompt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HCIPrototype.iws" />
@@ -61,17 +58,17 @@
       <file leaf-file-name="SpeedPrompt.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/SpeedPrompt.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3581" max-vertical-offset="4148">
-              <caret line="207" column="25" selection-start-line="207" selection-start-column="25" selection-end-line="207" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4148">
+              <caret line="210" column="5" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddNewEvent.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AddNewEvent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/AddNewEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.5369127" vertical-offset="3157" max-vertical-offset="3604">
+            <state vertical-scroll-proportion="-28.107143" vertical-offset="1236" max-vertical-offset="3604">
               <caret line="121" column="51" selection-start-line="121" selection-start-column="51" selection-end-line="121" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -91,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventHash.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EventHash.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/EventHash.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3553" max-vertical-offset="4063">
-              <caret line="209" column="61" selection-start-line="209" selection-start-column="61" selection-end-line="209" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.5652174" vertical-offset="0" max-vertical-offset="3570">
+              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -104,7 +101,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="2329">
+            <state vertical-scroll-proportion="0.0" vertical-offset="923" max-vertical-offset="1870">
               <caret line="120" column="16" selection-start-line="120" selection-start-column="16" selection-end-line="120" selection-end-column="36" />
               <folding />
             </state>
@@ -1030,10 +1027,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/date_picker.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/roll_icon" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/EventHash.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/SpeedPrompt.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/AddNewEvent.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/EventHash.java" />
       </list>
     </option>
   </component>
@@ -1419,13 +1416,13 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30191457" sideWeight="0.24459459" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28333333" sideWeight="0.24485861" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24166666" sideWeight="0.49678662" order="2" side_tool="false" content_ui="tabs" x="30" y="315" width="858" height="229" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28333333" sideWeight="0.7554054" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.7551414" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3252841" sideWeight="0.5011655" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22686376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1859,25 +1856,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/EventHash.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2978" max-vertical-offset="3570">
-          <caret line="209" column="61" selection-start-line="209" selection-start-column="61" selection-end-line="209" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/SpeedPrompt.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3519" max-vertical-offset="4658">
-          <caret line="207" column="25" selection-start-line="207" selection-start-column="25" selection-end-line="207" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4148">
+          <caret line="210" column="5" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/AddNewEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5369127" vertical-offset="3157" max-vertical-offset="3604">
+        <state vertical-scroll-proportion="-28.107143" vertical-offset="1236" max-vertical-offset="3604">
           <caret line="121" column="51" selection-start-line="121" selection-start-column="51" selection-end-line="121" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1893,6 +1882,14 @@
             <element signature="e#7823#8361#0" expanded="true" />
             <element signature="e#8350#8351#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/david/hciprototype/EventHash.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5652174" vertical-offset="0" max-vertical-offset="3570">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
