@@ -9,17 +9,22 @@ import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class EventHash extends Application {
     public static HashMap<String, Event> events;
     public LocationHash locations;
     private int prepTime;
     public static Location locat;
+    public static JSONObject jsonDirections;
 
     public void onCreate(){
         events = new HashMap<String, Event>();
@@ -63,8 +68,8 @@ public class EventHash extends Application {
 
     public double predictTime(LatLng loc){
         double dist = distanceToEvent(loc);
-
-        return dist * 60.0 / 2.5 + (prepTime / 60000.0);
+        double time = Math.ceil(dist * 60.0 / 2.5);
+        return time + (prepTime / 60000.0);
     }
 
     // Returns average speed needed to be on time with extra time (in minutes) to get ready
@@ -86,6 +91,52 @@ public class EventHash extends Application {
         return false;
     }
 
+    public ArrayList<LatLng> getDirection() {
+        String encoded = "";
+        try {
+            encoded = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONObject("overview_polyline").getString("points");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        // Decode the overview_polyline
+        ArrayList<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0;
+        int len = encoded.length();
+        int lat = 0;
+        int lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+
+        return poly;
+    }
+
+
+
     public Double distanceToEvent(String event){
 
         Location location = getCurrentLocation();
@@ -100,7 +151,7 @@ public class EventHash extends Application {
             GoogleDirections directions = new GoogleDirections();
             try {
                 String theDirections = directions.execute(coords).get();
-                JSONObject jsonDirections = new JSONObject(theDirections);
+                jsonDirections = new JSONObject(theDirections);
 
                 // Get the distance between points
                 String distStringMeters = jsonDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").get("value").toString();
@@ -127,7 +178,7 @@ public class EventHash extends Application {
             GoogleDirections directions = new GoogleDirections();
             try {
                 String theDirections = directions.execute(coords).get();
-                JSONObject jsonDirections = new JSONObject(theDirections);
+                jsonDirections = new JSONObject(theDirections);
 
                 // Get the distance between points
 
