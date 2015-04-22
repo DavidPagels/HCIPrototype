@@ -108,6 +108,7 @@ public class SpeedPrompt extends ActionBarActivity {
                     } else {
                         handler.removeCallbacks(this);
                         Intent resetMainIntent = new Intent(SpeedPrompt.this, MainActivity.class);
+                        finish();
                         startActivity(resetMainIntent);
                     }
 
@@ -154,6 +155,18 @@ public class SpeedPrompt extends ActionBarActivity {
         speedText.setTextColor(Color.BLACK);
         Uri soundUri = Settings.System.DEFAULT_NOTIFICATION_URI;
         double storePrevSpeed = prevSpeed;
+
+        // If the user is within 1/20 of  a mile, end the speed prompt
+        if(eventHash.distanceToEvent(event) < .05){
+            sendEndNotification(this, event, true);
+            eventHash.events.remove(event);
+            return false;
+        } else if(eventHash.getTimeDiff(event) < 0) {
+            sendEndNotification(this, event, false);
+            eventHash.events.remove(event);
+            return false;
+        }
+        // Otherwise set prompt
         if(average > 10){
             promptText.setText("Sprint or get on a bike!");
             speedText.setText("Pace: Dead Sprint");
@@ -198,17 +211,6 @@ public class SpeedPrompt extends ActionBarActivity {
         if(storePrevSpeed < average) {
             sendNotification(this, soundUri, event);
         }
-
-        // If the user is within 1/20 of  a mile, end the speed prompt
-        if(eventHash.distanceToEvent(event) < .05){
-            sendEndNotification(this, event, true);
-            eventHash.events.remove(event);
-            return false;
-        } else if(eventHash.getTimeDiff(event) < 0) {
-            sendEndNotification(this, event, false);
-            eventHash.events.remove(event);
-            return false;
-        }
         return true;
     }
 
@@ -249,8 +251,10 @@ public class SpeedPrompt extends ActionBarActivity {
             ticker = "You made it!";
 
         } else {
-            message = "You didn't make it to " + event + "! We will add more preparation time for next time...";
+            message = "You didn't make it to " + event + "! We will add more prep time...";
             ticker = "You're late!";
+            // add one min for now...
+            eventHash.addPrepTime(60000);
         }
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
