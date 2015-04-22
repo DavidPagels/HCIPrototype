@@ -33,6 +33,7 @@ public class SpeedPrompt extends ActionBarActivity {
     private LatLng currentLocation;
     EventHash eventHash;
     private double prevSpeed = 1000;
+    Context con = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,10 @@ public class SpeedPrompt extends ActionBarActivity {
 
         final TextView promptText = (TextView) findViewById(R.id.textView2);
         final View thisView = promptText.getRootView();
+
+        if(extras.containsKey("prev")) {
+            prevSpeed = extras.getDouble("prev");
+        }
 
         if(extras.containsKey("update") && extras.getBoolean("update")) {
             setPrompt(eventHash, thisView, event);
@@ -79,30 +84,38 @@ public class SpeedPrompt extends ActionBarActivity {
 
 
         // Play ringtone for notification
-        try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+//            r.play();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
         // Set up runnable for updates
-        if(savedInstanceState == null) {
+        if(savedInstanceState == null && !extras.containsKey("update")) {
             final Handler handler = new Handler();
 
             final Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    if(!setPrompt(eventHash, thisView, event)){
-                        finish();
+                    System.out.println(eventHash.events.size());
+                    setPrompt(eventHash, thisView, event);
+
+                    if(eventHash.events.containsKey(event)) {
+                        handler.postDelayed(this, 2000);
+                    } else {
+                        handler.removeCallbacks(this);
+                        Intent resetMainIntent = new Intent(SpeedPrompt.this, MainActivity.class);
+                        startActivity(resetMainIntent);
                     }
-                    handler.postDelayed(this, 10000);
+
                 }
             };
 
-            handler.postDelayed(runnable,10000);
+            System.out.println("in handler");
+            handler.postDelayed(runnable,2000);
         }
     }
 
@@ -133,6 +146,7 @@ public class SpeedPrompt extends ActionBarActivity {
 
     //--> A method to set the prompt and background color
     public boolean setPrompt(EventHash eventHash, View thisView, String event){
+
         TextView promptText = (TextView) findViewById(R.id.textView2);
         TextView speedText = (TextView) findViewById(R.id.speed_indicator);
         Double average = eventHash.getAverageSpeed(event);
@@ -187,24 +201,12 @@ public class SpeedPrompt extends ActionBarActivity {
 
         // If the user is within 1/20 of  a mile, end the speed prompt
         if(eventHash.distanceToEvent(event) < .05){
-            promptText.setText("You made it to your event");
-            speedText.setText("Hooray!");
-            try {
-                Thread.sleep(10000);
-                sendEndNotification(this, event, true);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sendEndNotification(this, event, true);
+            eventHash.events.remove(event);
             return false;
         } else if(eventHash.getTimeDiff(event) < 0) {
-            promptText.setText("We will add more time for preparation next time!");
-            speedText.setText("Oh no!");
             sendEndNotification(this, event, false);
-            try {
-                Thread.sleep(9000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            eventHash.events.remove(event);
             return false;
         }
         return true;
@@ -214,12 +216,13 @@ public class SpeedPrompt extends ActionBarActivity {
         long[] vibrate = {0, 50, 100, 50, 120, 50, 140, 50, 150};
         Intent notificationIntent = new Intent(context, SpeedPrompt.class);
         notificationIntent.putExtra("event", event);
+        notificationIntent.putExtra("prev", prevSpeed);
         notificationIntent.putExtra("update", true);
         PendingIntent start = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String message = "You need to change your speed or you might not make it to " + event + "! Tap for details...";
+        String message = "You are going to slow! Change your speed! Tap for details...";
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setTicker("Speed Alert!")
-                .setContentTitle("Speed Alert!")
+                .setTicker("Speed Alert for " + event + "!")
+                .setContentTitle("Speed Alert for " + event + "!")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_exclamation)
@@ -237,14 +240,16 @@ public class SpeedPrompt extends ActionBarActivity {
     public void sendEndNotification(Context context, String event, boolean arrived) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         long[] vibrate = {0,50,100,50, 120, 50, 140, 50, 150};
-        String message = "";
-        String ticker = "";
+        String message;
+        String ticker;
+
         PendingIntent start = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (arrived) {
             message = "You made it to " + event + "! Hooray!";
             ticker = "You made it!";
+
         } else {
-            message = "You didn't make it to " + event + "! We will add more preparation time...";
+            message = "You didn't make it to " + event + "! We will add more preparation time for next time...";
             ticker = "You're late!";
         }
 

@@ -24,7 +24,7 @@ public class EventHash extends Application {
     public void onCreate(){
         events = new HashMap<String, Event>();
         locations = new LocationHash();
-        prepTime = 600000;
+        prepTime = 6000;
         startGPSListener();
     }
 
@@ -45,12 +45,19 @@ public class EventHash extends Application {
     }
 
     // Returns average speed needed to be on time
-    public double getAverageSpeed(String event){
+    public double getAverageSpeed(String event) {
         Double dist = distanceToEvent(event);
-        Calendar timeOfEvent = events.get(event).eventTime();
+        // continue to search if null
+        while (dist == null) {
+            try {
+                Thread.sleep(500);
+                dist = distanceToEvent(event);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         Double hoursDiff = getTimeDiff(event);
-        double average = dist / hoursDiff;
-        return average;
+        return dist / hoursDiff;
     }
 
 

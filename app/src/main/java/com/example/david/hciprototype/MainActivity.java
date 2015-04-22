@@ -47,11 +47,12 @@ public class MainActivity extends ActionBarActivity {
         if(savedInstanceState == null){
             final Runnable checkEvents = new Runnable() {
                 public void run() {
+                    System.out.println("Still running");
                     promptCheck();
                 }
             };
             final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            final ScheduledFuture eventHandler = scheduler.scheduleWithFixedDelay(checkEvents, 0, 13, SECONDS);
+            final ScheduledFuture eventHandler = scheduler.scheduleWithFixedDelay(checkEvents, 0, 20, SECONDS);
         }
 
     }
@@ -80,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Periodically check for upcoming events
     public void promptCheck(){
+        System.out.println(EventHash.events.size());
         for (String event : EventHash.events.keySet()) {
             Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event);
             ((EventHash)getApplication()).getAverageForNotification(event);
