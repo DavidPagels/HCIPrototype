@@ -29,20 +29,12 @@ public class EventHash extends Application {
     public void onCreate(){
         events = new HashMap<String, Event>();
         locations = new LocationHash();
-        prepTime = 6000;
+        prepTime = 600000;
         startGPSListener();
     }
 
     public void addPrepTime(int time2Add) {
         prepTime += time2Add;
-    }
-
-    public int getPrepTime() {
-        return prepTime;
-    }
-
-    public int getPrepMin() {
-        return prepTime / 60000;
     }
 
     public void addEvent(String name, Calendar time, String location){
@@ -87,8 +79,10 @@ public class EventHash extends Application {
         return hoursDiff;
     }
 
-    public boolean checkPrepDone(String event) {
-        return false;
+    public Double timeToEvent(String event){
+        double normal = distanceToEvent(event) / 2.5;
+        double hours = getTimeDiff(event)-(prepTime/3600000.0);
+        return Math.ceil((hours - normal)* 60);
     }
 
     public ArrayList<LatLng> getDirection() {
@@ -159,9 +153,11 @@ public class EventHash extends Application {
                 return dist*0.000621371;
             } catch (Exception e) {
                 System.err.println("direction error " + e);
+                startGPSListener();
             }
         }
-        return null;
+        System.out.println("NNNNNNNNNNNOOOOOOOOOOOOOOOOOOOOOOOO");
+        return distanceToEvent(event);
     }
 
     public Double distanceToEvent(LatLng toCoords){
@@ -266,7 +262,7 @@ public class EventHash extends Application {
             locations.put("HCI",new LatLng(45.589257, -95.902834) );
             locations.put("Big Cat",new LatLng(45.586419, -95.899508) );
             locations.put("Old Number One",new LatLng(45.585689, -95.913506) );
-            locations.put("Willie's",new LatLng(45.588596, -95.914915) );
+            locations.put("Willie's",new LatLng(45.588556, -95.914929) );
         }
 
         public void addLocation(String location, double latitude, double longitude) {

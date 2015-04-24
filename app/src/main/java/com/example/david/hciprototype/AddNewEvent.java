@@ -121,7 +121,7 @@ public class AddNewEvent extends ActionBarActivity {
                 LatLng selectedCoors = locations.getCoordinates(selected);
                 savedDate = Calendar.getInstance();
                 Double dist = eventHash.predictTime(selectedCoors);
-                Toast.makeText(AddNewEvent.this, "Coordinates:" + dist, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddNewEvent.this, "Coordinates:" + dist, Toast.LENGTH_SHORT).show();
                 final TextView theTime = (TextView) findViewById(R.id.theTime);
                 final TextView theDate = (TextView) findViewById(R.id.theDate);
                 savedDate.add(Calendar.MINUTE, dist.intValue());

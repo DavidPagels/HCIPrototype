@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.identity.intents.AddressConstants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,7 +38,6 @@ public class SpeedPrompt extends ActionBarActivity {
     private LatLng currentLocation;
     EventHash eventHash;
     private double prevSpeed = 1000;
-    Context con = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,18 @@ public class SpeedPrompt extends ActionBarActivity {
         }
 
         if(extras.containsKey("update") && extras.getBoolean("update")) {
-            setPrompt(eventHash, thisView, event);
+            try {
+                setPrompt(eventHash, thisView, event);
+            } catch (NullPointerException e) {
+                setHandler(extras, savedInstanceState);
+            }
         }
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         currentLocation = new LatLng(eventHash.getCurrentLocation().getLatitude(), eventHash.getCurrentLocation().getLongitude());
+
+
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
 
         map.setMyLocationEnabled(true);
@@ -96,10 +102,14 @@ public class SpeedPrompt extends ActionBarActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        setHandler(extras, savedInstanceState);
+    }
 
-
-        // Set up runnable for updates
-        if(savedInstanceState == null && !extras.containsKey("update")) {
+    public void setHandler(Bundle extras, Bundle savedInstanceState) {
+        final String event = extras.getString("event");
+        final TextView promptText = (TextView) findViewById(R.id.textView2);
+        final View thisView = promptText.getRootView();
+        if (savedInstanceState == null && !extras.containsKey("update")) {
             final Handler handler = new Handler();
 
             final Runnable runnable = new Runnable() {
@@ -108,7 +118,7 @@ public class SpeedPrompt extends ActionBarActivity {
                     System.out.println(eventHash.events.size());
                     setPrompt(eventHash, thisView, event);
 
-                    if(eventHash.events.containsKey(event)) {
+                    if (eventHash.events.containsKey(event)) {
                         handler.postDelayed(this, 2000);
                     } else {
                         handler.removeCallbacks(this);
@@ -121,11 +131,9 @@ public class SpeedPrompt extends ActionBarActivity {
             };
 
             System.out.println("in handler");
-            handler.postDelayed(runnable,2000);
+            handler.postDelayed(runnable, 2000);
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -161,7 +169,7 @@ public class SpeedPrompt extends ActionBarActivity {
         Uri soundUri = Settings.System.DEFAULT_NOTIFICATION_URI;
         double storePrevSpeed = prevSpeed;
         // If the user is within 1/20 of  a mile, end the speed prompt
-        if(eventHash.distanceToEvent(event) < .05){
+        if(eventHash.distanceToEvent(event) < .02){
             sendEndNotification(this, event, true);
             eventHash.events.remove(event);
             return false;

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,7 +25,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Button submitButton = (Button) findViewById(R.id.newLoc);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +41,14 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, AddNewEvent.class);
                 startActivity(myIntent);
+            }
+        });
+
+        Button checkUpcoming = (Button) findViewById(R.id.upcoming);
+        checkUpcoming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upcomingCheck();
             }
         });
 
@@ -93,6 +101,37 @@ public class MainActivity extends ActionBarActivity {
                 openNewSpeedPrompt=false;
             }
         }
+    }
+
+    public boolean upcomingCheck(){
+        Double timeToNextEvent = Double.MAX_VALUE;
+        for (String event : EventHash.events.keySet()) {
+            Double averageSpeed = ((EventHash)getApplication()).getAverageForNotification(event);
+            ((EventHash)getApplication()).getAverageForNotification(event);
+            Double timeDiff = ((EventHash) getApplication()).timeToEvent(event);
+            if(averageSpeed >= 2.5){
+                Intent speedPrompt = new Intent(MainActivity.this, SpeedPrompt.class);
+                speedPrompt.putExtra("event", event);
+                speedPrompt.putExtra("update", true);
+                PendingIntent start = PendingIntent.getActivity(this, 0, speedPrompt, PendingIntent.FLAG_UPDATE_CURRENT);
+                try {
+                    start.send(this, 0, speedPrompt);
+                } catch (PendingIntent.CanceledException e) {
+                    System.out.println( "Sending contentIntent failed: " );
+                }
+                openNewSpeedPrompt=false;
+                return true;
+            } else if(timeToNextEvent > timeDiff) {
+                timeToNextEvent = timeDiff;
+            }
+        }
+        if(EventHash.events.size() == 0) {
+            Toast.makeText(MainActivity.this, "There are no upcoming events.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Next event is in approximately " + timeToNextEvent.intValue() + " minutes.", Toast.LENGTH_SHORT).show();
+        }
+
+        return false;
     }
 
 
