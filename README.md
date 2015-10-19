@@ -1,4 +1,4 @@
-# HCI Prototype
+# The Anti-Tardiness App
 ####David Pagels, David Donatucci, Thomas Harren
 *A protoype for our Spring 2015 Human Computer Interation class.*
 
